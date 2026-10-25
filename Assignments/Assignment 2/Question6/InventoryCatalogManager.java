@@ -60,4 +60,12 @@ public class InventoryCatalogManager {
             }
         }
     }
+
+    private static void initializeCatalog(Map<String, Integer> catalog, int productCount) {
+        for (int i = 0; i < productCount; i++) catalog.put("P" + i, 100);
+    }
+
+    private static String productIdFor(int operation, int workerId, int productCount) {
+        return "P" + ((operation + workerId) % productCount);
+    }
 }
