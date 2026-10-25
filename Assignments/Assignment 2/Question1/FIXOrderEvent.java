@@ -7,8 +7,16 @@ public class FIXOrderEvent extends TradeEvent {
         this.clOrdId = clOrdId;
     }
 
-    // Basic behaviour shared by all event types.
+    // Overrides the parent's dispatch method to show the order and its fee.
+    @Override
     public void dispatch() {
-        System.out.printf("Generic event | Sender: %s | Time: %d | Base value: %.2f%n", senderId, timestamp, basePrice);
+        double fee = basePrice * 0.0015; // 0.15 percent exchange fee
+        double total = basePrice + fee;
+        System.out.println("FIX STOCK PURCHASE ORDER");
+        System.out.println("Sender ID: " + senderId);
+        System.out.println("Client Order ID: " + clOrdId);
+        System.out.printf("Order value: %.2f%n", basePrice);
+        System.out.printf("Exchange fee (0.15%%): %.2f%n", fee);
+        System.out.printf("Total value: %.2f%n", total);
     }
 }
