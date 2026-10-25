@@ -24,4 +24,14 @@ public class TradingEngineApp {
         }
     }
 
+    private static String readText(String message) {
+        while (true) {
+            System.out.print(message);
+            String value = input.nextLine().trim();
+            if (!value.isEmpty())
+                return value;
+            System.out.println("Input cannot be empty. Please try again.");
+        }
+    }
+
 }
