@@ -8,7 +8,59 @@ public class SensorGridMonitorApp {
     private static final int WORKER_COUNT = 4;
 
     public static void main(String[] args) {
-        
+        while (true) {
+            System.out.println("\n=== Parallel Sensor Grid Monitor ===");
+            System.out.println("1. Generate readings and find global minimum/maximum");
+            System.out.println("2. Exit");
+            int choice = readInt("Choose an option: ", 1, 2);
+            if (choice == 2) {
+                System.out.println("Sensor monitor closed.");
+                break;
+            }
+
+            double low = readDouble("Enter the lowest possible reading: ");
+            double high = readDouble("Enter the highest possible reading: ");
+            while (high <= low) {
+                System.out.println("Highest reading must be greater than the lowest reading.");
+                high = readDouble("Enter the highest possible reading again: ");
+            }
+
+            double[] data = createSensorData(low, high);
+            SensorRangeWorker[] workers = new SensorRangeWorker[WORKER_COUNT];
+            long startTime = System.nanoTime();
+
+            for (int i = 0; i < WORKER_COUNT; i++) {
+                int start = i * DATA_SIZE / WORKER_COUNT;
+                int end = (i + 1) * DATA_SIZE / WORKER_COUNT;
+                ParallelMinSearch minSearch = new ParallelMinSearch(data, start, end);
+                ParallelMaxSearch maxSearch = new ParallelMaxSearch(data, start, end);
+                workers[i] = new SensorRangeWorker("Sensor-Worker-" + (i + 1), minSearch, maxSearch);
+                workers[i].start();
+            }
+
+            double globalMin = Double.POSITIVE_INFINITY;
+            double globalMax = Double.NEGATIVE_INFINITY;
+            for (int i = 0; i < WORKER_COUNT; i++) {
+                try {
+                    workers[i].join();
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    System.out.println("Main thread was interrupted while waiting.");
+                    return;
+                }
+                if (workers[i].getMinimum() < globalMin)
+                    globalMin = workers[i].getMinimum();
+                if (workers[i].getMaximum() > globalMax)
+                    globalMax = workers[i].getMaximum();
+            }
+
+            long elapsedNanos = System.nanoTime() - startTime;
+            System.out.println("\nReadings processed: " + DATA_SIZE);
+            System.out.printf("Global minimum: %.4f%n", globalMin);
+            System.out.printf("Global maximum: %.4f%n", globalMax);
+            System.out.printf("Execution time with %d worker threads: %.3f ms%n",
+                    WORKER_COUNT, elapsedNanos / 1_000_000.0);
+        }
     }
 
     private static double[] createSensorData(double low, double high) {
