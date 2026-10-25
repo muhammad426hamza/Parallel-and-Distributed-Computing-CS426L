@@ -18,4 +18,18 @@ public class PacketSymmetryAuditor {
             System.out.println("Payload must not be blank and must fit the fixed array capacity.");
         }
     }
+
+    private static int readInt(String message, int min, int max) {
+        while (true) {
+            System.out.print(message);
+            try {
+                int value = Integer.parseInt(input.nextLine().trim());
+                if (value >= min && value <= max)
+                    return value;
+            } catch (NumberFormatException ignored) {
+                // Handle invalid menu input below.
+            }
+            System.out.println("Please enter a whole number from " + min + " to " + max + ".");
+        }
+    }
 }
