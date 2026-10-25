@@ -15,7 +15,7 @@ public class AsyncWebEngineApp {
             System.out.println("2. Exit");
             int var1 = readInt("Choose an option: ", 1, 2);
             if (var1 == 2) {
-                System.out.println("Telemetry application closed.");
+                System.out.println("\nTelemetry application closed.");
                 return;
             }
 
