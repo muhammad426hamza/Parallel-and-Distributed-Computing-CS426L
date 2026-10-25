@@ -95,4 +95,29 @@ public class InventoryCatalogManager {
         long elapsed = System.nanoTime() - startTime;
         printResult("Collections.synchronizedMap", elapsed, totalStock(catalog), productCount);
     }
+
+    public static void benchmarkConcurrentMap(int productCount) {
+        ConcurrentHashMap<String, Integer> catalog = new ConcurrentHashMap<String, Integer>();
+        initializeCatalog(catalog, productCount);
+        Thread[] workers = new Thread[WORKER_COUNT];
+        long startTime = System.nanoTime();
+
+        for (int workerId = 0; workerId < WORKER_COUNT; workerId++) {
+            final int id = workerId;
+            workers[workerId] = new Thread(() -> {
+                int operationsForWorker = TOTAL_OPERATIONS / WORKER_COUNT;
+                for (int i = 0; i < operationsForWorker; i++) {
+                    String productId = productIdFor(i, id, productCount);
+                    // compute() updates a key safely without locking the whole map ourselves.
+                    catalog.compute(productId, (key, currentStock) ->
+                            currentStock == null ? 1 : currentStock + 1);
+                }
+            }, "Concurrent-Worker-" + (workerId + 1));
+            workers[workerId].start();
+        }
+
+        joinWorkers(workers);
+        long elapsed = System.nanoTime() - startTime;
+        printResult("ConcurrentHashMap", elapsed, totalStock(catalog), productCount);
+    }
 }
