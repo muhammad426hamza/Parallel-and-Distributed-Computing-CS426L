@@ -6,7 +6,48 @@ public class PacketSymmetryAuditor {
     private static final int MAX_PAYLOAD_LENGTH = 256;
 
     public static void main(String[] args) {
-        
+        while (true) {
+            System.out.println("\n=== Packet Symmetry Auditor ===");
+            System.out.println("1. Check a packet payload");
+            System.out.println("2. Exit");
+            int choice = readInt("Choose an option: ", 1, 2);
+
+            if (choice == 2) {
+                System.out.println("Auditor closed.");
+                break;
+            }
+
+            String payload = readPayload();
+            TransactionStack stack = new TransactionStack(MAX_PAYLOAD_LENGTH);
+            RequestQueue queue = new RequestQueue(MAX_PAYLOAD_LENGTH);
+
+            // Store every character in both data structures.
+            for (int i = 0; i < payload.length(); i++) {
+                stack.push(payload.charAt(i));
+                queue.enqueue(payload.charAt(i));
+            }
+
+            boolean symmetric = true;
+            int position = 1;
+            // Stack returns characters backward; queue returns them forward.
+            while (!stack.isEmpty() && !queue.isEmpty()) {
+                char fromStack = stack.pop();
+                char fromQueue = queue.dequeue();
+                if (fromStack != fromQueue) {
+                    symmetric = false;
+                    System.out.println("First mismatch found at comparison " + position + ".");
+                    break;
+                }
+                position++;
+            }
+
+            System.out.println("Payload: " + payload);
+            if (symmetric) {
+                System.out.println("Result: SYMMETRIC (palindrome signature detected).");
+            } else {
+                System.out.println("Result: NOT SYMMETRIC.");
+            }
+        }
     }
 
     private static String readPayload() {
