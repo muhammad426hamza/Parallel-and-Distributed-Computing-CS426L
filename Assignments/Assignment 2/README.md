@@ -1,18 +1,6 @@
 # Assignment 2 - Parallel and Distributed Computing Lab
 
-**Course:** CS-426L, Fall 2026  
-**University:** Air University, Kharian
-
 This folder contains beginner-oriented Java implementations for Questions 1-7 from the assignment PDF. The programs use simple menus, input validation, comments, and the class names requested in the assignment. Each question is in its own directory so it can be compiled and run independently.
-
-## Before submitting
-
-- Replace the student-name, registration-ID, semester/section, and GitHub URL placeholders in the Word report.
-- Run every program on your own computer and check that you understand each class and method before the viva.
-- Capture one genuine, uncropped, full-screen VS Code + Terminal screenshot for every question. Paste each screenshot into the matching evidence area in the Word report. In Word, add a rectangle shape with **No Fill** and a **red outline** around the important terminal output. The report currently contains clearly labelled placeholders rather than fabricated screenshots.
-- Create your own GitHub repository, push the code, and replace the repository-link placeholder in the report. The files have not been pushed to GitHub from this package.
-- The assignment asks for 50+ readable commit messages. Create meaningful commits as you build, test, fix, and document the project; do not use filler commits or claim commits that you did not make.
-- Rename the report using your actual registration ID and semester/section, following `RegistrationID-A#2-SemesterSection` (for example, `247127-A#2-BSCYS-F24-A`).
 
 ## Requirements
 
