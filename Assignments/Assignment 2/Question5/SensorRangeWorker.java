@@ -17,4 +17,12 @@ public class SensorRangeWorker extends Thread {
         maximum = maxSearch.processGrid();
         System.out.println(getName() + " finished its sensor segment.");
     }
+
+    public double getMinimum() {
+        return minimum;
+    }
+
+    public double getMaximum() {
+        return maximum;
+    }
 }
