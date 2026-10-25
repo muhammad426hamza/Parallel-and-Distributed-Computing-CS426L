@@ -33,4 +33,14 @@ public class CacheLocalityBenchmark {
         }
         return sum;
     }
+
+    // Row-major order: each row's adjacent values are visited together.
+    private static double traverseRowMajor(double[][] matrix) {
+        double sum = 0.0;
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++)
+                sum += matrix[i][j];
+        }
+        return sum;
+    }
 }
