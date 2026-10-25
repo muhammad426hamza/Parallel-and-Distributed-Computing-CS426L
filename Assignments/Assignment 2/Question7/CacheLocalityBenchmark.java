@@ -7,7 +7,17 @@ public class CacheLocalityBenchmark {
     private static final int ITERATIONS = 10;
 
     public static void main(String[] args) {
-        
+        while (true) {
+            System.out.println("\n=== Cache Locality Benchmark ===");
+            System.out.println("1. Run row-major and column-major benchmark");
+            System.out.println("2. Exit");
+            int choice = readInt("Choose an option: ", 1, 2);
+            if (choice == 2) {
+                System.out.println("Cache benchmark closed.");
+                break;
+            }
+            runBenchmark();
+        }
     }
 
     private static int readInt(String message, int min, int max) {
