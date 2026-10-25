@@ -32,5 +32,19 @@ public class ForkJoinPortfolioApp {
             }
             System.out.println("Please enter a whole number from " + min + " to " + max + ".");
         }
-    } 
+    }
+
+    private static double readPositiveDouble(String message) {
+        while (true) {
+            System.out.print(message);
+            try {
+                double value = Double.parseDouble(input.nextLine().trim());
+                if (Double.isFinite(value) && value > 0)
+                    return value;
+            } catch (NumberFormatException ignored) {
+                // Handle invalid values below.
+            }
+            System.out.println("Please enter a valid number greater than zero.");
+        }
+    }
 }
