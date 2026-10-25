@@ -68,4 +68,31 @@ public class InventoryCatalogManager {
     private static String productIdFor(int operation, int workerId, int productCount) {
         return "P" + ((operation + workerId) % productCount);
     }
+
+    public static void benchmarkSynchronizedMap(int productCount) {
+        Map<String, Integer> catalog = Collections.synchronizedMap(new HashMap<String, Integer>());
+        initializeCatalog(catalog, productCount);
+        Thread[] workers = new Thread[WORKER_COUNT];
+        long startTime = System.nanoTime();
+
+        for (int workerId = 0; workerId < WORKER_COUNT; workerId++) {
+            final int id = workerId;
+            workers[workerId] = new Thread(() -> {
+                int operationsForWorker = TOTAL_OPERATIONS / WORKER_COUNT;
+                for (int i = 0; i < operationsForWorker; i++) {
+                    String productId = productIdFor(i, id, productCount);
+                    // Synchronize the full read-update-write operation to avoid lost updates.
+                    synchronized (catalog) {
+                        Integer currentStock = catalog.get(productId);
+                        catalog.put(productId, currentStock + 1);
+                    }
+                }
+            }, "Sync-Worker-" + (workerId + 1));
+            workers[workerId].start();
+        }
+
+        joinWorkers(workers);
+        long elapsed = System.nanoTime() - startTime;
+        printResult("Collections.synchronizedMap", elapsed, totalStock(catalog), productCount);
+    }
 }
