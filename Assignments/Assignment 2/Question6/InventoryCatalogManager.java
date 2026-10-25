@@ -11,7 +11,24 @@ public class InventoryCatalogManager {
     private static final int TOTAL_OPERATIONS = 50000;
 
     public static void main(String[] args) {
-        
+        while (true) {
+            System.out.println("\n=== Inventory Catalog Benchmark ===");
+            System.out.println("1. Run both collection benchmarks");
+            System.out.println("2. Run synchronized-map benchmark only");
+            System.out.println("3. Run ConcurrentHashMap benchmark only");
+            System.out.println("4. Exit");
+            int choice = readInt("Choose an option: ", 1, 4);
+            if (choice == 4) {
+                System.out.println("Inventory benchmark closed.");
+                break;
+            }
+
+            int productCount = readInt("Enter product count (10-1000): ", 10, 1000);
+            System.out.println("Each selected test uses " + WORKER_COUNT + " workers and "
+                    + TOTAL_OPERATIONS + " lookup/update operations.");
+            if (choice == 1 || choice == 2) benchmarkSynchronizedMap(productCount);
+            if (choice == 1 || choice == 3) benchmarkConcurrentMap(productCount);
+        }
     }
 
     private static int readInt(String message, int min, int max) {
