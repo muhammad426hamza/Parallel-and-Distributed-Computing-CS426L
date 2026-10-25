@@ -34,4 +34,19 @@ public class TradingEngineApp {
         }
     }
 
+    private static double readPositiveDouble(String message) {
+        while (true) {
+            System.out.print(message);
+            String line = input.nextLine().trim();
+            try {
+                double value = Double.parseDouble(line);
+                if (Double.isFinite(value) && value > 0)
+                    return value;
+            } catch (NumberFormatException ignored) {
+                // Show the same validation message below.
+            }
+            System.out.println("Please enter a valid number greater than zero.");
+        }
+    }
+
 }
