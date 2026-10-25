@@ -39,4 +39,13 @@ public class InventoryCatalogManager {
         System.out.printf("Throughput: %.0f operations/second%n", throughput);
         System.out.println("Final stock total: " + finalStock + " (expected " + expectedTotal + ")");
     }
+
+    private static long totalStock(Map<String, Integer> catalog) {
+        long total = 0;
+        // Iterating synchronizedMap requires a synchronized block.
+        synchronized (catalog) {
+            for (Integer stock : catalog.values()) total += stock;
+        }
+        return total;
+    }
 }
