@@ -43,4 +43,42 @@ public class CacheLocalityBenchmark {
         }
         return sum;
     }
+
+    private static void runBenchmark() {
+        double[][] matrix = new double[N][N];
+        // Fill the matrix once before measuring traversal time.
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                matrix[i][j] = i + j;
+            }
+        }
+
+        double rowChecksum = 0.0;
+        double columnChecksum = 0.0;
+        long rowStart = System.nanoTime();
+        for (int repeat = 0; repeat < ITERATIONS; repeat++) {
+            rowChecksum += traverseRowMajor(matrix);
+        }
+        long rowNanos = System.nanoTime() - rowStart;
+
+        long columnStart = System.nanoTime();
+        for (int repeat = 0; repeat < ITERATIONS; repeat++) {
+            columnChecksum += traverseColumnMajor(matrix);
+        }
+        long columnNanos = System.nanoTime() - columnStart;
+
+        double rowMillis = rowNanos / 1_000_000.0;
+        double columnMillis = columnNanos / 1_000_000.0;
+        System.out.println("Matrix size: " + N + " x " + N);
+        System.out.println("Repeated iterations per order: " + ITERATIONS);
+        System.out.printf("Row-major total time: %.3f ms (average %.3f ms)%n",
+                rowMillis, rowMillis / ITERATIONS);
+        System.out.printf("Column-major total time: %.3f ms (average %.3f ms)%n",
+                columnMillis, columnMillis / ITERATIONS);
+        if (rowNanos > 0) {
+            System.out.printf("Column time / row time ratio: %.3f%n", (double) columnNanos / rowNanos);
+        }
+        System.out.printf("Checksums: row %.1f | column %.1f%n", rowChecksum, columnChecksum);
+        System.out.println("A ratio above 1 means row-major traversal was faster on this run.");
+    }
 }
