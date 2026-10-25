@@ -14,13 +14,13 @@ Open a terminal in each question folder, then run the command shown below. Use `
 
 | Question | Directory | Compile and run |
 |---|---|---|
-| 1 | `src/Question1` | `javac *.java` then `java TradingEngineApp` |
-| 2 | `src/Question2` | `javac *.java` then `java PacketSymmetryAuditor` |
-| 3 | `src/Question3` | `javac *.java` then `java AsyncWebEngineApp` |
-| 4 | `src/Question4` | `javac *.java` then `java ForkJoinPortfolioApp` |
-| 5 | `src/Question5` | `javac *.java` then `java SensorGridMonitorApp` |
-| 6 | `src/Question6` | `javac *.java` then `java InventoryCatalogManager` |
-| 7 | `src/Question7` | `javac *.java` then `java CacheLocalityBenchmark` |
+| 1 | `Question1` | `javac *.java` then `java TradingEngineApp` |
+| 2 | `Question2` | `javac *.java` then `java PacketSymmetryAuditor` |
+| 3 | `Question3` | `javac *.java` then `java AsyncWebEngineApp` |
+| 4 | `Question4` | `javac *.java` then `java ForkJoinPortfolioApp` |
+| 5 | `Question5` | `javac *.java` then `java SensorGridMonitorApp` |
+| 6 | `Question6` | `javac *.java` then `java InventoryCatalogManager` |
+| 7 | `Question7` | `javac *.java` then `java CacheLocalityBenchmark` |
 
 Example for Question 1:
 
