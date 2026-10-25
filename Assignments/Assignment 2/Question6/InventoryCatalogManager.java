@@ -48,4 +48,16 @@ public class InventoryCatalogManager {
         }
         return total;
     }
+
+    private static void joinWorkers(Thread[] workers) {
+        for (Thread worker : workers) {
+            try {
+                worker.join();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                System.out.println("Main thread was interrupted while waiting.");
+                return;
+            }
+        }
+    }
 }
