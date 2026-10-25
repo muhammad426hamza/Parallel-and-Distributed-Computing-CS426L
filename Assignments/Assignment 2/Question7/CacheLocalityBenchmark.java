@@ -23,4 +23,14 @@ public class CacheLocalityBenchmark {
             System.out.println("Please enter a whole number from " + min + " to " + max + ".");
         }
     }
+
+    // Column-major order: values from different rows are visited for each column.
+    private static double traverseColumnMajor(double[][] matrix) {
+        double sum = 0.0;
+        for (int j = 0; j < N; j++) {
+            for (int i = 0; i < N; i++)
+                sum += matrix[i][j];
+        }
+        return sum;
+    }
 }
