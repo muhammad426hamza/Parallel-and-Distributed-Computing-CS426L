@@ -27,4 +27,16 @@ public class InventoryCatalogManager {
             System.out.println("Please enter a whole number from " + min + " to " + max + ".");
         }
     }
+
+    private static void printResult(String name, long elapsedNanos, long finalStock, int productCount) {
+        double seconds = elapsedNanos / 1_000_000_000.0;
+        double throughput = seconds > 0 ? TOTAL_OPERATIONS / seconds : 0.0;
+        long expectedTotal = (long) productCount * 100 + TOTAL_OPERATIONS;
+        System.out.println("\nCollection: " + name);
+        System.out.println("Worker threads: " + WORKER_COUNT);
+        System.out.println("Lookup/update operations: " + TOTAL_OPERATIONS);
+        System.out.printf("Execution time: %.3f ms%n", elapsedNanos / 1_000_000.0);
+        System.out.printf("Throughput: %.0f operations/second%n", throughput);
+        System.out.println("Final stock total: " + finalStock + " (expected " + expectedTotal + ")");
+    }
 }
