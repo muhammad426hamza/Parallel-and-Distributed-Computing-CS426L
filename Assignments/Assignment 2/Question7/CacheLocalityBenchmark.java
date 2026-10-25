@@ -13,7 +13,7 @@ public class CacheLocalityBenchmark {
             System.out.println("2. Exit");
             int choice = readInt("Choose an option: ", 1, 2);
             if (choice == 2) {
-                System.out.println("Cache benchmark closed.");
+                System.out.println("\nCache benchmark closed.");
                 break;
             }
             runBenchmark();
@@ -79,7 +79,7 @@ public class CacheLocalityBenchmark {
 
         double rowMillis = rowNanos / 1_000_000.0;
         double columnMillis = columnNanos / 1_000_000.0;
-        System.out.println("Matrix size: " + N + " x " + N);
+        System.out.println("\nMatrix size: " + N + " x " + N);
         System.out.println("Repeated iterations per order: " + ITERATIONS);
         System.out.printf("Row-major total time: %.3f ms (average %.3f ms)%n",
                 rowMillis, rowMillis / ITERATIONS);
